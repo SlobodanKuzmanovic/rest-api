@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"rest/controllers"
+	"os"
 )
 
 func HandleRequests() {
@@ -39,5 +40,10 @@ func HandleRequests() {
 	myRouter.HandleFunc("/usersquestions", controllers.CreateReaction).Methods("POST")
 	myRouter.HandleFunc("/usersreplies", controllers.InsertNewReaction).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8082", router))
+	port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
+
+	log.Fatal(http.ListenAndServe(":"+port, myRouter))
 }
