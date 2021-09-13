@@ -15,6 +15,8 @@ func main() {
 
 	if err != nil {
 		panic(err.Error())
+	}else{
+		panic("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
 	}
 	fmt.Println("Successfully")
 	defer models.DB.Close()
