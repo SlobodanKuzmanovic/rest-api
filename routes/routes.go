@@ -39,5 +39,5 @@ func HandleRequests() {
 	myRouter.HandleFunc("/usersquestions", controllers.CreateReaction).Methods("POST")
 	myRouter.HandleFunc("/usersreplies", controllers.InsertNewReaction).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8082", myRouter))
+	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), router))
 }
