@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"rest/models"
 	"rest/routes"
-	"io"
+
 	_ "github.com/go-sql-driver/mysql"
-	"net/http"
 )
 
 func main() {
@@ -22,11 +21,4 @@ func main() {
 
 	routes.HandleRequests()
 
-	http.HandleFunction("/", hello)
-}
-
-
-
-func hello(w http.ResponseWriter, r *http.Request)  {
-	io.WriteString(w, "Hello World!")
 }
