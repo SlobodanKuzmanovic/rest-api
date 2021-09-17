@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"fmt"
+	"log"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -12,49 +14,49 @@ var DB *sql.DB
 
 type User struct {
 	Pk_UserId string `json:"pk_UserId"`
-	Name string `json:"name"`
-	Surname string `json:"surname"`
-	Email string `json:"email"`
-	Password string `json:"password"`
+	Name      string `json:"name"`
+	Surname   string `json:"surname"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 type HotUser struct {
-	Pk_UserId string `json:"pk_UserId"`
-	Name string `json:"name"`
-	Surname string `json:"surname"`
+	Pk_UserId    string `json:"pk_UserId"`
+	Name         string `json:"name"`
+	Surname      string `json:"surname"`
 	CommentCount string `json:"comment_count"`
 }
 type LogUser struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 type Users []User
 
-func UpdateUser (us User) () {
-	query := fmt.Sprintf("UPDATE `Users` SET `Name`= '%s', `Surname`= '%s', `Email` = '%s' WHERE Pk_UserId= %s", us.Name, us.Surname, us.Email,us.Pk_UserId)
+func UpdateUser(us User) {
+	query := fmt.Sprintf("UPDATE `Users` SET `Name`= '%s', `Surname`= '%s', `Email` = '%s' WHERE Pk_UserId= %s", us.Name, us.Surname, us.Email, us.Pk_UserId)
 	_, err := DB.Query(query)
 	if err != nil {
 		panic(err.Error())
 	}
 }
-func UpdateUserPass (us User) () {
+func UpdateUserPass(us User) {
 	hash := md5.Sum([]byte(us.Password))
 	hashedPass := hex.EncodeToString(hash[:])
-	query := fmt.Sprintf("UPDATE `Users` SET `Password` = '%s' WHERE Pk_UserId= %s", hashedPass,us.Pk_UserId)
+	query := fmt.Sprintf("UPDATE `Users` SET `Password` = '%s' WHERE Pk_UserId= %s", hashedPass, us.Pk_UserId)
 	_, err := DB.Query(query)
 	if err != nil {
 		panic(err.Error())
 	}
 }
 
-func DeleteUser(id string)()  {
+func DeleteUser(id string) {
 	_, err := DB.Query("DELETE FROM `Users` WHERE Pk_UserId = ?", id)
 	if err != nil {
 		panic(err.Error())
 	}
 }
 
-func NewUser (us User) () {
+func NewUser(us User) {
 
 	hash := md5.Sum([]byte(us.Password))
 	hashedPass := hex.EncodeToString(hash[:])
@@ -65,7 +67,7 @@ func NewUser (us User) () {
 		panic(err.Error())
 	}
 }
-func OneUser(email string, password string)(User)  {
+func OneUser(email string, password string) User {
 	hash := md5.Sum([]byte(password))
 	hashedPass := hex.EncodeToString(hash[:])
 	results, err := DB.Query("SELECT Name, Surname, Email, Password FROM `users` WHERE Email = ? AND Password =?", email, hashedPass)
@@ -83,8 +85,7 @@ func OneUser(email string, password string)(User)  {
 	return us
 }
 
-
-func OneUserById(id string)(User)  {
+func OneUserById(id string) User {
 
 	results, err := DB.Query("SELECT Pk_UserId, Name, Surname, Email, Password FROM `users` WHERE Pk_UserId = ?", id)
 	if err != nil {
@@ -101,11 +102,12 @@ func OneUserById(id string)(User)  {
 	return us
 }
 
+func AllUsers() ([]User, error) {
 
-func AllUsers ()([]User, error)  {
-
+	log.Printf("All users na DB fajlu")
 	results, err := DB.Query("SELECT Pk_UserId, Name, Surname, Email, Password from Users")
 	if err != nil {
+		log.Printf("Get users NECE")
 		panic(err.Error())
 	}
 
@@ -126,7 +128,7 @@ func AllUsers ()([]User, error)  {
 	}
 	return Users, err
 }
-func HotUsers ()([]HotUser, error)  {
+func HotUsers() ([]HotUser, error) {
 
 	results, err := DB.Query("SELECT u.Pk_UserId, u.Name, u.Surname, COUNT(r.Pk_ReplyId) as Hotest " +
 		"FROM users AS u JOIN replies AS r ON u.Pk_UserId = r.Fk_UserId " +
