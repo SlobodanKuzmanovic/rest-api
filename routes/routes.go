@@ -1,11 +1,14 @@
 package routes
 
 import (
-	"github.com/gorilla/mux"
+	"fmt"
 	"log"
 	"net/http"
-	"rest/controllers"
 	"os"
+	"rest/controllers"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func HandleRequests() {
@@ -41,9 +44,22 @@ func HandleRequests() {
 	myRouter.HandleFunc("/usersreplies", controllers.InsertNewReaction).Methods("POST")
 
 	port := os.Getenv("PORT")
-    if port == "" {
-        port = "8080"
-    }
 
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
+	tStr := os.Getenv("REPEAT")
+	repeat, err := strconv.Atoi(tStr)
+	if err != nil {
+		log.Printf("Error converting $REPEAT to an int: %q - Using default\n", err)
+		repeat = 5
+	}
+	fmt.Println(port)
+	log.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	log.Fatal(http.ListenAndServe(":"+port, myRouter))
+	log.Printf("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+	log.Printf(port)
+	log.Printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+	log.Fatal(repeat)
 }
