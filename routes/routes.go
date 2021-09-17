@@ -57,9 +57,9 @@ func HandleRequests() {
 	}
 	fmt.Println(port)
 	log.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+	log.Printf(port)
 	log.Fatal(http.ListenAndServe(":"+port, myRouter))
 	log.Printf("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-	log.Printf(port)
 	log.Printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
 	log.Fatal(repeat)
 }
