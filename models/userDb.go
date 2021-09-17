@@ -110,7 +110,7 @@ func AllUsers() ([]User, error) {
 	if errDB != nil {
 		var errOpenAgain error
 		log.Printf("ALL USERS DB.Ping() NECE")
-		DB, errOpenAgain = sql.Open("mysql", "b9025434f58ccf:b9025434f58ccf@/heroku_ecd70f5db7afe86")
+		DB, errOpenAgain = sql.Open("mysql", "mysql://b9025434f58ccf:b9025434f58ccf@eu-cdbr-west-01.cleardb.com:3306/heroku_ecd70f5db7afe86")
 		if errOpenAgain != nil {
 			log.Printf("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOpet neće")
 		}

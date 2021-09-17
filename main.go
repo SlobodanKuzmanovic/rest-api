@@ -13,7 +13,7 @@ import (
 func main() {
 	var err error
 	log.Printf("Try open Connection")
-	models.DB, err = sql.Open("mysql", "b9025434f58ccf:b9025434f58ccf@/heroku_ecd70f5db7afe86")
+	models.DB, err = sql.Open("mysql", "b9025434f58ccf:b9025434f58ccf@eu-cdbr-west-01.cleardb.com:3306/heroku_ecd70f5db7afe86")
 	log.Printf("BBBBBBBBBBBBBBBBBB")
 	if err != nil {
 		log.Printf(err.Error())
