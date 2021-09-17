@@ -105,6 +105,12 @@ func OneUserById(id string) User {
 func AllUsers() ([]User, error) {
 
 	log.Printf("All users na DB fajlu")
+
+	errDB := DB.Ping()
+	if errDB != nil {
+		log.Printf("ALL USERS DB.Ping() NECE")
+	}
+
 	results, err := DB.Query("SELECT Pk_UserId, Name, Surname, Email, Password from Users")
 	if err != nil {
 		log.Printf("Get users NECE")
