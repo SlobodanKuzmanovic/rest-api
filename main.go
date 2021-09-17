@@ -21,7 +21,8 @@ func main() {
 		panic(err.Error())
 	}
 	log.Printf("SSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-	fmt.Println("Successfully")
+	fmt.Println(models.DB.Stats())
+	log.Printf("SSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 	defer models.DB.Close()
 
 	routes.HandleRequests()

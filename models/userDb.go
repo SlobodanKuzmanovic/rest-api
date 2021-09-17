@@ -108,6 +108,7 @@ func AllUsers() ([]User, error) {
 	results, err := DB.Query("SELECT Pk_UserId, Name, Surname, Email, Password from Users")
 	if err != nil {
 		log.Printf("Get users NECE")
+		log.Printf(err.Error())
 		panic(err.Error())
 	}
 
