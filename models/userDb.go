@@ -106,6 +106,17 @@ func AllUsers() ([]User, error) {
 
 	log.Printf("All users na DB fajlu")
 
+	errDB := DB.Ping()
+	if errDB != nil {
+		var errOpenAgain error
+		log.Printf("ALL USERS DB.Ping() NECE")
+		DB, errOpenAgain = sql.Open("mysql", "b9025434f58ccf:b9025434f58ccf@eu-cdbr-west-01.cleardb.com/heroku_ecd70f5db7afe86")
+		if errOpenAgain != nil {
+			log.Printf("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOpet neće")
+		}
+
+	}
+
 	results, err := DB.Query("SELECT Pk_UserId, Name, Surname, Email, Password from Users")
 	if err != nil {
 		log.Printf("Get users NECE")
